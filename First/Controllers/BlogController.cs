@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace First.Controllers
 {
-    public class Blog : Controller
+    public class BlogController : Controller
     {
         BlogManager bm = new BlogManager(new EfBlogRepository());
         public IActionResult Index()
@@ -17,6 +17,11 @@ namespace First.Controllers
             ViewBag.Id = id;    
             var values = bm.GetBlogId(id);
             return View(values);
+        }
+        public IActionResult BlogListByWriter()
+        {
+            var values = bm.GetBlogWithWriter(1);
+            return View(values);  
         }
     }
 }

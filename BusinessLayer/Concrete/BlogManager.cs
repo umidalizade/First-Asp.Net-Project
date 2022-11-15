@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Concrete
 {
-    public class BlogManager : IBlogService
+    public class BlogManager : IGenericService<Blog>
     {
         IBlogDal _blogDal;
 
@@ -18,25 +18,25 @@ namespace BusinessLayer.Concrete
             _blogDal = blogDal;
         }
 
-        public void BlogAdd(Blog blog)
-        {
-            throw new NotImplementedException();
-        }
+        //public void BlogAdd(Blog blog)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void BlogRemove(Blog blog)
-        {
-            throw new NotImplementedException();
-        }
+        //public void BlogRemove(Blog blog)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void BlogUpdate(Blog blog)
-        {
-            throw new NotImplementedException();
-        }
+        //public void BlogUpdate(Blog blog)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public List<Blog> GetAllBlogs()
-        {
-           return _blogDal.GetListAll();
-        }
+        //public List<Blog> GetAllBlogs()
+        //{
+        //   return _blogDal.GetListAll();
+        //}
         public List<Blog> GetLast3Blogs()
         {
             return _blogDal.GetListAll().Take(3).ToList();
@@ -51,14 +51,34 @@ namespace BusinessLayer.Concrete
         {
             throw new NotImplementedException();
         }
+        public List<Blog> GetBlogWithWriter(int id)
+        {
+            return _blogDal.GetListAll(x => x.WriterId == id);
+        }
         public List<Blog> GetBlogId(int id)
         {
             return _blogDal.GetListAll(x => x.BlogId == id);
         }
 
-        public List<Blog> GetBlogWithWriter(int id)
+
+        public void TAdd(Blog t)
         {
-            return _blogDal.GetListAll(x => x.WriterId == id);
+            throw new NotImplementedException();
+        }
+
+        public void TRemove(Blog t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TUpdate(Blog t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Blog> GetList()
+        {
+            return _blogDal.GetListAll();
         }
     }
 }
