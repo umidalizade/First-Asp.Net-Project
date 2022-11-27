@@ -4,14 +4,16 @@ using DataAccessLayer.Concreate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221122160619_mig_add_score_column")]
+    partial class mig_add_score_column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,27 +89,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("WriterId");
 
                     b.ToTable("Blogs");
-                });
-
-            modelBuilder.Entity("EntityLayer.Concrate.BlogRating", b =>
-                {
-                    b.Property<int>("BlogRatingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BlogID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BlogRatingCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BlogTotalScore")
-                        .HasColumnType("int");
-
-                    b.HasKey("BlogRatingId");
-
-                    b.ToTable("BlogRatings");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrate.Category", b =>
@@ -212,33 +193,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("MailId");
 
                     b.ToTable("NewsLetter");
-                });
-
-            modelBuilder.Entity("EntityLayer.Concrate.Notification", b =>
-                {
-                    b.Property<int>("NotificationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("NotificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NotificationDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("NotificationStatus")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NotificationType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotificationTypeSymbol")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("NotificationId");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrate.Writer", b =>

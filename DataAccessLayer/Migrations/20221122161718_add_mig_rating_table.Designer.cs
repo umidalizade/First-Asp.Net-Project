@@ -4,14 +4,16 @@ using DataAccessLayer.Concreate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221122161718_add_mig_rating_table")]
+    partial class add_mig_rating_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,33 +214,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("MailId");
 
                     b.ToTable("NewsLetter");
-                });
-
-            modelBuilder.Entity("EntityLayer.Concrate.Notification", b =>
-                {
-                    b.Property<int>("NotificationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("NotificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NotificationDetails")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("NotificationStatus")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NotificationType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotificationTypeSymbol")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("NotificationId");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrate.Writer", b =>
