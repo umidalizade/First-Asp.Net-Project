@@ -9,36 +9,41 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Concrete
 {
-    public class NotificationManager : INotificationService
+    public class MessageManager : IMessageService
     {
-        INotificationDal notificationDal;
+        IMessageDal _messageDal;
 
-        public NotificationManager(INotificationDal notificationDal)
+        public MessageManager(IMessageDal messageDal)
         {
-            this.notificationDal = notificationDal;
+            _messageDal = messageDal;
         }
 
-        public List<Notification> GetList()
-        {
-            return notificationDal.GetListAll();
-        }
-
-        public void TAdd(Notification t)
+        public List<Message> GetList()
         {
             throw new NotImplementedException();
         }
 
-        public Notification TGetById(int id)
+        public List<Message> GetInboxListByWriter(string p)
+        {
+           return _messageDal.GetListAll(x=>x.Reciever==p);
+        }
+
+        public void TAdd(Message t)
         {
             throw new NotImplementedException();
         }
 
-        public void TRemove(Notification t)
+        public Message TGetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void TUpdate(Notification t)
+        public void TRemove(Message t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TUpdate(Message t)
         {
             throw new NotImplementedException();
         }
