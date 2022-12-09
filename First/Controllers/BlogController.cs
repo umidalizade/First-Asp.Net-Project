@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
+using DataAccessLayer.Concreate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using FluentValidation.Results;
@@ -28,7 +29,11 @@ namespace First.Controllers
         }
         public IActionResult BlogListByWriter()
         {
-            var values = bm.GetListByWriterbm(1);
+
+            Context c = new Context();
+            var userMail = User.Identity.Name;
+            var writerId = c.Writers.Where(x => x.WriterMail == userMail).Select(y => y.WriterId).FirstOrDefault();
+            var values = bm.GetListByWriterbm(writerId);
             return View(values);  
         }
         [HttpGet]
@@ -49,11 +54,15 @@ namespace First.Controllers
         {
             BlogValidator bv = new BlogValidator();
             ValidationResult results = bv.Validate(p);
+
+            Context c = new Context();
+            var userMail = User.Identity.Name;
+            var writerId = c.Writers.Where(x => x.WriterMail == userMail).Select(y => y.WriterId).FirstOrDefault();
             if (results.IsValid)
             {
                 p.BlogStatus = true;
                 p.BlogCreateDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-                p.WriterId = 1;
+                p.WriterId = writerId;
                 bm.TAdd(p);
                 return RedirectToAction("BlogListByWriter", "Blog");
             }
@@ -88,8 +97,12 @@ namespace First.Controllers
         [HttpPost]
         public IActionResult EditBlog(Blog p)
         {
+
+            Context c = new Context();
+            var userMail = User.Identity.Name;
+            var writerId = c.Writers.Where(x => x.WriterMail == userMail).Select(y => y.WriterId).FirstOrDefault();
             var blogvalue = bm.TGetById(p.BlogId);
-            p.WriterId = 1;
+            p.WriterId = writerId;
             p.BlogCreateDate = DateTime.Parse(blogvalue.BlogCreateDate.ToShortDateString());
             p.BlogStatus = true;
             bm.TUpdate(p);

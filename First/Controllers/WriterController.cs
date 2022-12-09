@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
+using DataAccessLayer.Concreate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using First.Models;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace First.Controllers
 {
@@ -37,14 +39,15 @@ namespace First.Controllers
         {
             return PartialView();
         }
-        [AllowAnonymous]
         public IActionResult WriterEditProfile()
         {
-            var values = wm.TGetById(1);
+            Context c = new Context();
+            var userMail = User.Identity.Name;
+            var writerId = c.Writers.Where(x=>x.WriterMail == userMail).Select(y=>y.WriterId).FirstOrDefault();
+            var values = wm.TGetById(writerId);
             return View(values);   
         }
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult WriterEditProfile(Writer p)
         {
             WriterValidator wl = new WriterValidator();
@@ -63,7 +66,6 @@ namespace First.Controllers
             }
             return View();
         }
-        [AllowAnonymous]
         public IActionResult WriterAdd()
         {
             return View();
