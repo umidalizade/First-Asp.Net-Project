@@ -1,0 +1,23 @@
+﻿@model EntityLayer.Concrate.Category
+@{
+    ViewData["Title"] = "AddCategory";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Add new Category</h1>
+
+@using (Html.BeginForm("AddCategory", "Category", FormMethod.Post))
+{
+    @Html.Label("Category Name")
+    @Html.TextBoxFor(x=>x.CategoryName, new{@class="form-control"})
+    @Html.ValidationMessageFor(x=>x.CategoryName)
+    <br />
+    @Html.Label("Category Description")
+    @Html.TextAreaFor(x=>x.CategoryDesc, new{@class="form-control"})
+    @Html.ValidationMessageFor(x=>x.CategoryDesc)
+    <br />
+    <br />
+    <br />
+    <button class="btn btn-success">Save Category</button>
+}
+
