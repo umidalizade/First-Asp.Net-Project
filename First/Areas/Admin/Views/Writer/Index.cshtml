@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Ajax using</h1>
+<br/>
+<button class="btn btn-primary" id="btngetlist" type="button">Get List</button>
+<button class="btn btn-success" id="btngetid" type="button">Get Writer</button>
+<br/>
+<br/>
+<div id="writerlist">
+    place of writers
+</div>
+<br/>
+<div id="getwriter">
+    place of one writer
+</div>
+<br/>
+<div id="getwriter">
+    <input type="text" id="writerid" placeholder="Type the ID number of the writer which you want" class="form-control"/>
+</div>
+
+@section scripts {
+    <script>
+        $("#btngetlist").click(function(){
+            $.ajax({
+                contentType:"application/json",
+                dataType: "json",
+                type: "GET",
+                url: "/Admin/Writer/WriterList/",
+                success:function(func){
+                       console.log(func)
+                       let w = jQuery.parseJSON(func);
+                       console.log(w);
+                       let tableHtml = "<table class='table table-bordered'> <tr><th>Writer's Id</th><th>Writer's Name</th></tr>"
+                       $.each(w,(index,value)=>{
+                           tableHtml+=`<tr><td>${value.Id}</td><td>${value.Name}</td></tr>`
+                       });
+                       tableHtml+="</table>";
+                       $("#writerlist").html(tableHtml)
+
+                }
+            })
+        })
+
+        $("#btngetid").click(function(){
+            let id = $("#writerid").val();
+            $.ajax({
+                contentType:"application/json",
+                dataType:"json",
+                type:"GET",
+                url:"/Admin/Writer/GetWriterById/",
+                data:{writerid: id},
+                success: function(func){
+                    let wl = jQuery.parseJSON(func)
+                    console.log(wl)
+
+                    let getValue = `<table class='table table-bordered'> <tr><th>Writer's Id</th><th>Writer's Name</th></tr>
+                    <tr><td>${wl.Id}</td><td>${wl.Name}</td></tr></table>`;
+
+                    $("#getwriter").html(getValue);
+                }
+
+            })
+            
+        })
+
+
+    </script>
+}

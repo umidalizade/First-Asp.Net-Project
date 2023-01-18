@@ -2,7 +2,7 @@
 
 namespace First.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class WidgetController : Controller
     {
         [Area("Admin")]
         public IActionResult Index()

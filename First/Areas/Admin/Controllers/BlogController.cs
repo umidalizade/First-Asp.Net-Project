@@ -1,8 +1,10 @@
 ﻿using ClosedXML.Excel;
+using DataAccessLayer.Concreate;
 using First.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace First.Areas.Admin.Controllers
 {
@@ -47,6 +49,8 @@ namespace First.Areas.Admin.Controllers
         {
             return View();
         }
+
+
         public IActionResult ExportDynamicExcelBlogList()
         {
             using (var workbook = new XLWorkbook())
@@ -56,7 +60,7 @@ namespace First.Areas.Admin.Controllers
                 worksheet.Cell(1, 2).Value = "Blog Name";
 
                 int BlogRowCount = 2;
-                foreach (var item in GetAllBlogList())
+                foreach (var item in BlogTitleList())
                 {
                     worksheet.Cell(BlogRowCount, 1).Value = item.Id;
                     worksheet.Cell(BlogRowCount, 2).Value = item.Name;
@@ -69,10 +73,24 @@ namespace First.Areas.Admin.Controllers
                     return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Blog1.xlsx");
                 }
             }
-        }
-        public List<BlogModel2> GetListAll()
+        }   
+        public List<BlogModel2> BlogTitleList()
         {
+            List<BlogModel2> bm = new List<BlogModel2>();
+            using(var c = new Context())
+            {
+                bm = c.Blogs.Select(x => new BlogModel2 
+                {
+                    Id = x.BlogId,
+                    Name = x.BlogTitle
+                }).ToList();
 
+            }
+            return bm;
+        }
+        public IActionResult BlogTitleListExcel()
+        {
+            return View();
         }
     }
 }
