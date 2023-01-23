@@ -8,6 +8,9 @@
 <br/>
 <button class="btn btn-primary" id="btngetlist" type="button">Get List</button>
 <button class="btn btn-success" id="btngetid" type="button">Get Writer</button>
+<button class="btn btn-info" id="btnadd" type="button">Add Writer</button>
+<button class="btn btn-danger" id="btnremove" type="button">Delete Writer</button>
+<button class="btn btn-warning" id="btnupdate" type="button">Update Writer</button>
 <br/>
 <br/>
 <div id="writerlist">
@@ -21,6 +24,24 @@
 <div id="getwriter">
     <input type="text" id="writerid" placeholder="Type the ID number of the writer which you want" class="form-control"/>
 </div>
+    <br/>
+    <br/>
+    <br/>
+<div>
+    <input type="text" id="txtwriterid" class="form-control" placeholder="Writer ID"/>
+    <br/>
+    <input type="text" id="txtwritername" class="form-control" placeholder="Writer Name"/>
+    <br/>
+</div>
+<br/>
+<div>
+    <h1>Writer ID for Removeing</h1>
+    <input type="text" id="dltwriterid" class="form-control" placeholder="Writer ID"/>
+</div>
+<br />
+ <input type="text" id="txtid" class="form-control" placeholder="Writer ID"/>
+ <br/>
+ <input type="text" id="txtname" class="form-control" placeholder="Writer Name"/>
 
 @section scripts {
     <script>
@@ -63,10 +84,52 @@
                     $("#getwriter").html(getValue);
                 }
 
-            })
-            
+            })  
         })
 
+        $("#btnadd").click(function(){
+            let writer = {
+                Id : $("#txtwriterid").val(),
+                Name : $("#txtwritername").val()
+            }
+            $.ajax({
+                type:"post",
+                url: "/Admin/Writer/AddWriter/",
+                data: writer,
+                success: function(func){
+                    let result = jQuery.parseJSON(func);
+                    alert("New Writer added successfully!!!")
+                }
 
+            })
+        })
+
+        $("#btnremove").click(function(){
+            let id = $("#dltwriterid").val();
+            $.ajax({
+                dataType:"json",
+                type:"post",
+                url:"/Admin/Writer/DeleteWriter/" + id,
+                success:function(func){
+                    alert("Delete proccess completed ! ")
+                }
+            })
+        })
+
+        $("#btnupdate").click(function(){
+            let writer = {
+                Id: $("#txtid").val(),
+                Name: $("#txtname").val()
+            };
+
+            $.ajax({
+                type:"post",
+                data: writer,
+                url:"/Admin/Writer/UpdateWriter/",
+                success:function(func){
+                    alert("Uptaded successfully!")
+                }
+            })
+        })
     </script>
 }
